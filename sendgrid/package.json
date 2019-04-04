@@ -1,0 +1,36 @@
+{
+  "name": "smtp-to-sendgrid-gateway",
+  "version": "1.1.1",
+  "description": "Forward emails from SMTP requests to the Sendgrid API. Useful when the cloud provider does not allow outbound connections on ports 25, 465, 587.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FGRibreau/smtp-to-sendgrid-gateway.git"
+  },
+  "keywords": [
+    "sendgrid",
+    "smtp",
+    "gateway"
+  ],
+  "author": "Francois-Guillaume Ribreau <npm@fgribreau.com> (http://fgribreau.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FGRibreau/smtp-to-sendgrid-gateway/issues"
+  },
+  "homepage": "https://github.com/FGRibreau/smtp-to-sendgrid-gateway#readme",
+  "dependencies": {
+    "@sendgrid/mail": "^6.1.2",
+    "chai": "^4.1.0",
+    "common-env": "^6.1.0",
+    "debug": "^2.6.8",
+    "mailparser": "^2.0.5",
+    "smtp-server": "^3.1.0",
+    "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "jest": "^20.0.4"
+  }
+}
