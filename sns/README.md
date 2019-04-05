@@ -1,0 +1,3 @@
+- https://github.com/s12v/sns
+- https://kevinholditch.co.uk/2017/10/19/running-sns-sqs-locally-in-docker-containers-supporting-fan-out/
+- https://gugsrs.com/localstack-sqs-sns/
