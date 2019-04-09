@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  hackerslides:
+    image: msoedov/hacker-slides
+    environment:
+      - USER=demo
+      - PASSWORD=demo
+    volumes:
+      - hackerslides:/app/slides
+    networks:
+      - appnet
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.backend.loadbalancer.sticky=false"
+        - "traefik.backend.loadbalancer.swarm=true"
+        - "traefik.backend=hackerslides"
+        - "traefik.docker.network=appnet"
+        - "traefik.entrypoints=https"
+        - "traefik.frontend.passHostHeader=true"
+        - "traefik.frontend.rule=Host:presentations.domain.com"
+        - "traefik.port=8080"
+
+networks:
+  appnet:
+    external: true
+
+volumes:
+  hackerslides:
+    external: true
