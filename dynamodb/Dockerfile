@@ -1,17 +1,10 @@
-FROM frolvlad/alpine-oraclejdk8
+FROM openjdk:11.0-jre-slim
 
-RUN apk update \
-    && apk add python openssl \
-    && apk add py2-pip \
-    && pip install awscli \
-    && mkdir -p /opt/ddb_local \
-    && cd /opt/ddb_local \
-    && wget http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz \
-    && tar -xf dynamodb_local_latest.tar.gz \
-    && echo 'java -Djava.library.path=/opt/ddb_local/DynamoDBLocal_lib -jar /opt/ddb_local/DynamoDBLocal.jar - inMemory -sharedDb' > /opt/ddb.sh \
-    && chmod +x /opt/ddb.sh
-
-ENTRYPOINT ["sh"]
-CMD ["/opt/ddb.sh"]
+WORKDIR /usr/local/dynamodb
+ADD https://s3-us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.tar.gz .
+RUN tar -xf dynamodb_local_latest.tar.gz \
+    && rm -rf  dynamodb_local_latest.tar.gz
 
 EXPOSE 8000
+ENTRYPOINT ["/usr/bin/java", "-Djava.library.path=.", "-jar", "DynamoDBLocal.jar", "-inMemory", "-sharedDb"]
+CMD ["-port", "8000"]
