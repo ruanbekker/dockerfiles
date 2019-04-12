@@ -1,7 +1,7 @@
 FROM alpine
 MAINTAINER Ruan Bekker <ruan@ruanbekker.com>
 
-RUN apk add --no-cache mongodb mongodb-tools && mkdir -p /data/db
+RUN apk add --no-cache mongodb mongodb-tools && apk add --no-cache wget python py2-pip && pip install pymongo mongoengine && mkdir -p /data/db
 EXPOSE 27017
 ENTRYPOINT ["mongod"]
 CMD ["mongod", "--syslog", "--nojournal", "--storageEngine", "wiredTiger", "--smallfiles", "--dbpath", "/data/db", "--bind_ip_all", "--port", "27017"] 
