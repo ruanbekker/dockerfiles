@@ -1,0 +1,40 @@
+<html>
+<head>
+<style>
+h1 {
+  font-family: "Avenir Next", Helvetica;
+  font-size: 5rem;
+  color: #999;
+  line-height: 1.1;
+  top:40%;
+  left:50%;
+  position:absolute;
+  padding:15px;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+}
+@supports
+  ((-webkit-text-stroke-color: #466)
+  and
+  (-webkit-text-fill-color: red))
+  or
+  ((-moz-text-stroke-color: #466)
+  and
+  (-moz-text-fill-color: red)) {
+  span {
+       -moz-text-fill-color: red;
+    -webkit-text-fill-color: black;
+       -moz-text-stroke-color: #466;
+    -webkit-text-stroke-color: #466;
+       -moz-text-stroke-width: 2px;
+    -webkit-text-stroke-width: 2px;
+  }
+}
+</style>
+</head>
+
+<body>
+  <h1>This is <span>{{ app_environment }}</span></h1>
+</body>
+</html>
