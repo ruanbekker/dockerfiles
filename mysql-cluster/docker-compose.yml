@@ -4,7 +4,7 @@ services:
     image: alpine
     environment:
       - BACKUP_ENABLED=1
-      - BACKUP_INTERVAL=120
+      - BACKUP_INTERVAL=60
       - BACKUP_PATH=/data
       - BACKUP_FILENAME=db_backup
     networks:
@@ -17,8 +17,10 @@ services:
           if [ $$BACKUP_ENABLED == 1 ]
             then
               sleep $$BACKUP_INTERVAL
-              echo "$$(date +%FT%H.%m) - Making Backup to : $$BACKUP_PATH/BACKUP_FILENAME-$$(date +%FT%H.%m).sql.gz"
-              mysqldump -u root -ppassword -h dblb --all-databases | gzip > $$BACKUP_PATH/$$BACKUP_FILENAME-$$(date +%FT%H.%m).sql.gz
+              mkdir -p $$BACKUP_PATH/$$(date +%F)
+              echo "$$(date +%FT%H.%m) - Making Backup to : $$BACKUP_PATH/$$(date +%F)/$$BACKUP_FILENAME-$$(date +%FT%H.%m).sql.gz"
+              mysqldump -u root -ppassword -h dblb --all-databases | gzip > $$BACKUP_PATH/$$(date +%F)/$$BACKUP_FILENAME-$$(date +%FT%H.%m).sql.gz
+              find $$BACKUP_PATH -mtime 7 -delete
           fi
         done
       EOF'
@@ -29,7 +31,6 @@ services:
       replicas: 1
 
   dbcluster:
-    # https://github.com/toughIQ/docker-mariadb-cluster
     image: toughiq/mariadb-cluster
     networks:
       - dbnet
