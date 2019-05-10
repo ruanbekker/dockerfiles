@@ -1,0 +1,66 @@
+version: '3.5'
+services:
+  dbclient:
+    image: alpine
+    environment:
+      - BACKUP_ENABLED=1
+      - BACKUP_INTERVAL=120
+      - BACKUP_PATH=/data
+      - BACKUP_FILENAME=db_backup
+    networks:
+      - dbnet
+    entrypoint: |
+      sh -c 'sh -s << EOF
+      apk add --no-cache mysql-client
+      while true
+        do
+          if [ $$BACKUP_ENABLED == 1 ]
+            then
+              sleep $$BACKUP_INTERVAL
+              echo "$$(date +%FT%H.%m) - Making Backup to : $$BACKUP_PATH/BACKUP_FILENAME-$$(date +%FT%H.%m).sql.gz"
+              mysqldump -u root -ppassword -h dblb --all-databases | gzip > $$BACKUP_PATH/$$BACKUP_FILENAME-$$(date +%FT%H.%m).sql.gz
+          fi
+        done
+      EOF'
+    volumes:
+      - vol_dbclient:/data
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  dbcluster:
+    # https://github.com/toughIQ/docker-mariadb-cluster
+    image: toughiq/mariadb-cluster
+    networks:
+      - dbnet
+    environment:
+      - DB_SERVICE_NAME=dbcluster
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=mydbuser
+      - MYSQL_PASSWORD=mydbpass
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  dblb:
+    image: toughiq/maxscale
+    networks:
+      - dbnet
+    ports:
+      - 3306:3306
+    environment:
+      - DB_SERVICE_NAME=dbcluster
+      - ENABLE_ROOT_USER=1
+    deploy:
+      mode: replicated
+      replicas: 1
+
+volumes:
+  vol_dbclient:
+    driver: local
+
+networks:
+  dbnet:
+    name: dbnet
+    driver: overlay
