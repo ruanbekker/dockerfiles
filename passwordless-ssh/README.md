@@ -1,5 +1,5 @@
 # Passwordless SSH Container
-Container that grants SSH to user for no auth
+Container that grants SSH to normal user for no auth
 
 ## Why not auth
 purely for debugging / homelab purposes
