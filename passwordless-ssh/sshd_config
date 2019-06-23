@@ -1,0 +1,37 @@
+#	$OpenBSD: sshd_config,v 1.103 2018/04/09 20:41:22 tj Exp $
+
+# This is the sshd server system-wide configuration file.  See
+# sshd_config(5) for more information.
+
+# This sshd was compiled with PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+Port 22
+#AddressFamily any
+#ListenAddress 0.0.0.0
+#ListenAddress ::
+
+HostKey /etc/ssh/ssh_host_rsa_key
+
+# Ciphers and keying
+#AllowUsers user1 user2
+AllowGroups ssh-users
+# Logging
+#SyslogFacility AUTH
+#LogLevel INFO
+
+#LoginGraceTime 2m
+PermitRootLogin no
+MaxSessions 10
+AuthorizedKeysFile	.ssh/authorized_keys
+PermitEmptyPasswords yes
+
+#AllowAgentForwarding yes
+AllowTcpForwarding no
+GatewayPorts no
+X11Forwarding no
+#PrintMotd yes
+#TCPKeepAlive yes
+UseDNS no
+#PermitTunnel no
+#Banner none
+Subsystem	sftp	/usr/lib/ssh/sftp-server
