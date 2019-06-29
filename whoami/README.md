@@ -33,3 +33,11 @@ $ curl -s http://localhost:8000/about | jq .
   ]
 }
 ```
+
+### Resources:
+
+- https://gowebexamples.com/http-server/
+- https://gobyexample.com/environment-variables
+- https://www.golang-book.com/books/intro/4
+- https://flaviocopes.com/go-web-server/
+- https://www.alexedwards.net/blog/golang-response-snippets
