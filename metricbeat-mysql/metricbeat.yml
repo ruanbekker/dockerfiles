@@ -1,0 +1,85 @@
+########################## Metricbeat Configuration ###########################
+
+#==========================  Modules configuration ============================
+metricbeat.modules:
+
+#------------------------------- Mysql Module -------------------------------
+- module: mysql
+  metricsets: ["status"]
+  enabled: true
+  period: ${METRIC_PERIOD}
+
+  # Host DSN should be defined as "user:pass@tcp(127.0.0.1:3306)/"
+  # The username and password can either be set in the DSN or using the username
+  # and password config options. Those specified in the DSN take precedence.
+  hosts: ["${MYSQL_DSN}"]
+
+#================================ Processors ===================================
+
+#processors:
+#- include_fields:
+#    fields: ["cpu"]
+#- drop_fields:
+#    fields: ["cpu.user", "cpu.system"]
+#
+# The following example drops the events that have the HTTP response code 200:
+#
+#processors:
+#- drop_event:
+#    when:
+#       equals:
+#           http.code: 200
+#
+processors:
+- add_cloud_metadata: ~
+#processors:
+#- add_locale:
+#    format: offset
+#
+# PS: `add_docker_metadata` is version 6 onwards (to consider adding, when its up)
+#
+# processors:
+# - add_docker_metadata:
+#    host: "unix:///hostfs/var/run/docker.sock"
+#    match_source: true
+#    match_source_index: 4
+#    match_fields: ["system.process.cgroup.id"]
+
+#================================ Outputs ======================================
+
+# Configure what outputs to use when sending the data collected by the beat.
+# Multiple outputs may be used.
+
+#-------------------------- Elasticsearch output -------------------------------
+output.elasticsearch:
+  #enabled: true
+  hosts: ["${ES_HOST}:${ES_PORT}"]
+  #compression_level: 0
+  protocol: "${ES_PROT}"
+  #username: "${ES_USER}"
+  #password: "${ES_PASS}"
+
+  # Dictionary of HTTP parameters to pass within the url with index operations.
+  #parameters:
+    #param1: value1
+    #param2: value2
+
+  #worker: 1
+  index: "${ES_INDEX}"
+  #pipeline: ""
+  #headers:
+  #  X-My-Header: Contents of the header
+  #bulk_max_size: 50
+  #flush_interval: 1s
+
+setup.template.name: "metricbeat"
+setup.template.pattern: "metricbeat-*"
+
+#----------------------------- Console output ---------------------------------
+#output.console:
+  #enabled: true
+  #pretty: false
+
+#================================ Logging ======================================
+
+
