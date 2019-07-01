@@ -1,0 +1,11 @@
+FROM node:6-slim
+RUN apt update && apt install --no-install-recommends git calibre -y
+
+RUN npm install -g gitbook-cli
+RUN gitbook ls-remote
+RUN gitbook update && gitbook install 2.6.9
+RUN apt-get clean
+RUN mkdir /gitbook
+WORKDIR /gitbook
+EXPOSE 4000
+CMD ["gitbook", "--help"]
