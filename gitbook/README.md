@@ -6,6 +6,6 @@ docker run --rm -v "$PWD:/gitbook" -p 4000:4000 ruanbekker/gitbook:2.6.9 gitbook
 
 serve:
 
-````
+```
 docker run --rm -v "$PWD:/gitbook" -p 4000:4000 ruanbekker/gitbook:2.6.9 gitbook serve
 ```
