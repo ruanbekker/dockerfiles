@@ -2,6 +2,31 @@
 
 Make sure that `book.json` is not in your current working directory, as it's meant for installing the FAQ theme.
 
+File structure:
+
+```
+$ find .
+.
+./docker/install-docker.md
+./SUMMARY.md
+./README.md
+./aws/deploy-docker-swarm-on-aws.md
+./aws/how-to-debug-a-lambda-function.md
+```
+
+Summary Page:
+
+```
+$ cat SUMMARY.md
+# Summary
+
+* [Docker](docker/README.md)
+  * [Docker Swarm on AWS](aws/deploy-docker-swarm-on-aws.md)
+  * [Install Docker](docker/install-docker.md)
+* [AWS](aws/README.md)
+  * [Debug Lambda on AWS](aws/how-to-debug-a-lambda-function.md)
+```
+
 Initialize:
 
 ```
@@ -13,6 +38,11 @@ Serve:
 ```
 $ docker run --rm -v "$PWD:/srv/gitbook" -p 4000:4000 ruanbekker/gitbook:3.2.3 gitbook serve
 ```
+
+Home Page:
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/567298/60515523-10329780-9cdc-11e9-872f-829c0e97a1e2.png">
+
 
 ## Theme: FAQ
 
