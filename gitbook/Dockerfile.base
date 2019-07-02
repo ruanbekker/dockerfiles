@@ -1,11 +1,19 @@
-FROM node:6-slim
-RUN apt update && apt install --no-install-recommends git calibre -y
+FROM node:8.4.0-alpine
 
-RUN npm install -g gitbook-cli
-RUN gitbook ls-remote
-RUN gitbook update && gitbook install 2.6.9
-RUN apt-get clean
-RUN mkdir /gitbook
-WORKDIR /gitbook
-EXPOSE 4000
+ARG GITBOOK_VERSION=3.2.3
+LABEL version=$GITBOOK_VERSION
+
+RUN npm install --global gitbook-cli \
+        && gitbook fetch ${GITBOOK_VERSION} \
+        && npm cache verify \
+        && rm -rf /tmp/*
+
+WORKDIR /srv/gitbook
+VOLUME /srv/gitbook
+
+EXPOSE 4000 35729
+
+# https://github.com/GitbookIO/gitbook-cli/issues/55
+COPY copyPluginAssets.js /root/.gitbook/versions/${GITBOOK_VERSION}/lib/output/website/copyPluginAssets.js
+
 CMD ["gitbook", "--help"]
