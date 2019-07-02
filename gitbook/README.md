@@ -114,3 +114,8 @@ Search Result:
 Related Docs:
 
 <img width="1264" alt="image" src="https://user-images.githubusercontent.com/567298/60514648-35bea180-9cda-11e9-8c9a-fb2a7dca5210.png">
+
+## Resources:
+- https://github.com/GitbookIO?utf8=%E2%9C%93&q=faq&type=&language=
+- https://github.com/GitbookIO/theme-faq
+- https://github.com/billryan/algorithm-exercise/tree/master/en
