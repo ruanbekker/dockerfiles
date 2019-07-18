@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  dynamodb-ui:
+    image: ruanbekker/dynamodb
+    networks:
+      - dynamodb
+
+  dynamodb-svc:
+    image: ruanbekker/dynamodb-ui:latest
+    ports:
+      - 8082:8000
+    environment:
+      - DYNAMO_ENDPOINT=http://dynamodb-ui:4567
+    networks:
+      - dynamodb
+
+networks:
+  dynamodb: {}
