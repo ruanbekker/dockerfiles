@@ -1,19 +1,13 @@
 FROM alpine:latest
 
+ENV AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+ENV AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}"
+
 RUN apk --no-cache add \
 	ca-certificates \
-	groff \
-	less \
 	python \
 	py2-pip \
-	&& pip install awscli \
-	&& mkdir -p /root/.aws \
-	&& { \
-		echo '[default]'; \
-		echo 'output = json'; \
-		echo 'region = $AWS_DEFAULT_REGION'; \
-		echo 'aws_access_key_id = $AMAZON_ACCESS_KEY_ID'; \
-		echo 'aws_secret_access_key = $AMAZON_SECRET_ACCESS_KEY'; \
-	} > /root/.aws/config
-
+	&& pip install awscli
+	
 ENTRYPOINT [ "aws" ]
