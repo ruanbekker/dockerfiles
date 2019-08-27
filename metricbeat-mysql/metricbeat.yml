@@ -52,12 +52,12 @@ processors:
 
 #-------------------------- Elasticsearch output -------------------------------
 output.elasticsearch:
-  #enabled: true
+  enabled: true
   hosts: ["${ES_HOST}:${ES_PORT}"]
   #compression_level: 0
   protocol: "${ES_PROT}"
-  #username: "${ES_USER}"
-  #password: "${ES_PASS}"
+  username: "${ES_USER}"
+  password: "${ES_PASS}"
 
   # Dictionary of HTTP parameters to pass within the url with index operations.
   #parameters:
