@@ -10,6 +10,9 @@ processors:
 - add_cloud_metadata:
 
 output.elasticsearch:
+  enabled: true
   hosts: ["${ES_HOST}:${ES_PORT}"]
-  #username: elastic
-  #password: changeme
+  protocol: "${ES_PROT}"
+  username: "${ES_USER}"
+  password: "${ES_PASS}"
+  index: "${ES_INDEX}"
