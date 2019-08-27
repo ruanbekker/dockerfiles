@@ -16,3 +16,6 @@ output.elasticsearch:
   username: "${ES_USER}"
   password: "${ES_PASS}"
   index: "${ES_INDEX}"
+
+setup.template.name: "filebeat"
+setup.template.pattern: "filebeat-*"
