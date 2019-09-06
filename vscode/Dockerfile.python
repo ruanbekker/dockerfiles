@@ -1,0 +1,17 @@
+FROM python:3.7
+
+ENV VERSION 1.1156-vsc1.33.1
+
+COPY docker-entrypoint.sh /
+
+RUN apt update \
+    && apt install net-tools -y \
+    && apt-get clean \
+    && wget https://github.com/cdr/code-server/releases/download/${VERSION}/code-server${VERSION}-linux-x64.tar.gz \
+    && tar -xzf code-server${VERSION}-linux-x64.tar.gz && mv code-server${VERSION}-linux-x64/code-server /usr/local/bin/code-server \
+    && chmod +x /usr/local/bin/code-server /docker-entrypoint.sh \
+    && rm -rf code-server${VERSION}-linux-x64.tar.gz
+
+ADD ./code/ /code
+
+CMD ["/docker-entrypoint.sh"]
