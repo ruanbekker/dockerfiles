@@ -7,3 +7,9 @@ $ docker run --rm --name vscode \
   -v $(pwd)/data:/data -v $(pwd)/code:/code \
   ruanbekker/vscode:python-3.7
 ```
+
+Docker
+
+```
+$ docker run --privileged -it -p 8443:8443 ruanbekker/vscode:docker
+```
