@@ -1,0 +1,23 @@
+FROM python:3.7
+
+ENV VERSION 1.1156-vsc1.33.1
+ENV DOMAIN localhost
+ENV DOCKER_VERSION 18.09.2
+
+COPY docker-entrypoint_docker.sh /docker-entrypoint.sh
+
+RUN apt update \
+    && apt install iptables golang g++ make jq screen tmux nodejs bash ca-certificates openssl curl git zip unzip net-tools -y \
+    && update-ca-certificates \
+    && apt-get clean \
+    && wget https://github.com/cdr/code-server/releases/download/${VERSION}/code-server${VERSION}-linux-x64.tar.gz \
+    && tar -xzf code-server${VERSION}-linux-x64.tar.gz \
+    && mv code-server${VERSION}-linux-x64/code-server /usr/local/bin/code-server \
+    && chmod +x /usr/local/bin/code-server /docker-entrypoint.sh \
+    && rm -rf code-server${VERSION}-linux-x64.tar.gz \
+    && curl -sl https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz --output docker-${DOCKER_VERSION}.tgz \
+    && tar xzvf docker-${DOCKER_VERSION}.tgz && rm docker-${DOCKER_VERSION}.tgz && cp docker/* /usr/bin/
+
+ADD ./code/ /code
+
+CMD ["/docker-entrypoint.sh"]
