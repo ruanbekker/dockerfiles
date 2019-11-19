@@ -21,4 +21,4 @@ RUN apk --no-cache add \
 	py2-pip \
 	&& pip install awscli
 	
-ENTRYPOINT [ "/bin/sh" ]
+#ENTRYPOINT [ "/bin/sh" ]
