@@ -1,0 +1,24 @@
+FROM alpine:latest
+
+ENV AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
+ENV AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
+ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}"
+ENV TERRAFORM_VERSION=0.12.15
+
+RUN apk update && \
+    apk add curl jq python bash ca-certificates git openssl unzip wget py2-pip && \
+    pip install awscli && \
+    cd /tmp && \
+    wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin && \
+    rm -rf /tmp/* && \
+    rm -rf /var/cache/apk/* && \
+    rm -rf /var/tmp/*
+
+RUN apk --no-cache add \
+	ca-certificates \
+	python \
+	py2-pip \
+	&& pip install awscli
+	
+ENTRYPOINT [ "/bin/sh" ]
