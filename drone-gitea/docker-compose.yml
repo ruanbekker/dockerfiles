@@ -1,0 +1,94 @@
+version: "2"
+
+services:
+  gitea:
+    image: gitea/gitea:1.7.4
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - ROOT_URL=http://gitea.localhost:3000
+      - SSH_DOMAIN=gitea.localhost
+      - APP_NAME=Gitea
+      - SSH_PORT=2222
+      - HTTP_PORT=3000
+      - DB_TYPE=postgres
+      - DB_HOST=postgres:5432
+      - DB_NAME=gitea
+      - DB_USER=postgres
+      - DB_PASSWD=postgres
+    restart: always
+    volumes:
+      - gitea-app:/data
+    ports:
+      - "3000:3000"
+      - "2222:22"
+    networks:
+      - appnet
+
+  postgres:
+    image: postgres:alpine
+    container_name: postgres
+    ports:
+      - 5440:5432
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=gitea
+      - PGDATA=/var/lib/postgresql/data
+    networks:
+      - appnet
+
+  drone-server:
+    image: drone/drone:0.8
+    container_name: drone-server
+    ports:
+      - "8001:8000"
+      - "9000:9000"
+    volumes:
+      - drone-server:/var/lib/drone/
+    restart: always
+    depends_on:
+      - gitea
+    environment:
+      - DRONE_OPEN=true
+      - DRONE_GITEA=true
+      - DRONE_ADMIN=rbekker87
+      - DRONE_USER_CREATE=username:rbekker87,admin:true
+      - DRONE_SERVER_PORT=:8000
+      - DRONE_GITEA_URL=http://gitea:3000
+      - DRONE_SECRET=secret
+      - DRONE_NETWORK=appnet
+      - DRONE_HOST=http://drone-server:80
+      - DRONE_DATABASE_DRIVER=postgres
+      - DRONE_DATABASE_DATASOURCE=postgres://postgres:postgres@postgres:5432/postgres?sslmode=disable
+    depends_on:
+      - postgres
+    networks:
+      - appnet
+
+  drone-agent:
+    image: drone/agent:1
+    container_name: drone-agent
+    command: agent
+    restart: always
+    depends_on:
+      - drone-server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DRONE_SERVER=drone-server:9000
+      - DRONE_SECRET=secret
+    networks:
+      - appnet
+
+volumes:
+  gitea-app:
+  postgres:
+  drone-server:
+
+networks:
+  appnet:
