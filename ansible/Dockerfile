@@ -6,3 +6,4 @@ RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && apk del .build-deps \
     && ln -s /usr/local/bin/python /usr/bin/python
     
+CMD ["ansible-playbook", "--version"]
