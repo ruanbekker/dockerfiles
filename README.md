@@ -5,6 +5,7 @@ Dockerfiles Repo
 
 - [vimagick](https://github.com/vimagick/dockerfiles)
 - [jessfraz](https://github.com/jessfraz/dockerfiles)
+- [kiwicom](https://github.com/kiwicom/dockerfiles)
 
 ## GUI Based
 
