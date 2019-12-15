@@ -3,7 +3,7 @@ FROM alpine
 LABEL description="Hugo Static Site Generator for Docker"
 LABEL maintainer="Ruan Bekker <ruan@ruanbekker.com>"
 
-ENV HUGO_VERSION=0.54.0
+ENV HUGO_VERSION=0.61.0
 ENV HUGO_HOME=/usr/local/hugo
 ENV PROJECT_PATH=/app
 ENV PATH=${PATH}:${HUGO_HOME}/bin

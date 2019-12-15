@@ -1,4 +1,4 @@
-FROM ruanbekker/hugo:v0.54
+FROM ruanbekker/hugo:v0.61
 
 LABEL description="Hugo Static Site Generator in Docker"
 LABEL maintainer="Ruan Bekker <ruan@ruanbekker.com>"
