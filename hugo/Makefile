@@ -17,6 +17,7 @@ help: ## This help.
 
 build: ## Build the container
 	docker build -t $(DOCKER_REPO_USER)/$(APP_NAME):v$(VERSION) .
+	docker build -t $(DOCKER_REPO_USER)/$(APP_NAME):latest .
 
 run: ## Run container on port configured in `config.env`
 	docker run -i -t --rm --env-file=./config.env -p=$(PORT):$(PORT) --name="$(APP_NAME)" $(APP_NAME)
@@ -44,11 +45,11 @@ repo-login: ## Logs in to dockerhub
 
 tag-latest: ## Generate container `{version}` tag
 	@echo 'create tag latest'
-	docker tag $(APP_NAME) $(DOCKER_REPO_USER)/$(APP_NAME):latest
+	docker tag $(DOCKER_REPO_USER)/$(APP_NAME) $(DOCKER_REPO_USER)/$(APP_NAME):latest
 
 tag-version: ## Generate container `latest` tag
 	@echo 'create tag $(VERSION)'
-	docker tag $(APP_NAME) $(DOCKER_REPO_USER)/$(APP_NAME):v$(VERSION)
+	docker tag $(DOCKER_REPO_USER)/$(APP_NAME) $(DOCKER_REPO_USER)/$(APP_NAME):v$(VERSION)
 
 version: ## Output the current version
 	@echo $(VERSION)
