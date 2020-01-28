@@ -1,0 +1,17 @@
+FROM alpine:3.10.1 as alpine
+RUN apk add -U --no-cache ca-certificates
+
+FROM pistacks/alpine:3.10.1
+ENV GODEBUG netdns=go
+ENV XDG_CACHE_HOME /data
+ENV DRONE_DATABASE_DRIVER sqlite3
+ENV DRONE_DATABASE_DATASOURCE /data/database.sqlite
+ENV DRONE_RUNNER_OS=linux
+ENV DRONE_RUNNER_ARCH=amd64
+ENV DRONE_SERVER_PORT=:80
+ENV DRONE_SERVER_HOST=localhost
+COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+
+ADD release/linux/arm/drone-server /bin/
+
+ENTRYPOINT ["/bin/drone-server"]
