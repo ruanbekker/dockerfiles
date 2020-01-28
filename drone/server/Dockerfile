@@ -12,6 +12,6 @@ ENV DRONE_SERVER_PORT=:80
 ENV DRONE_SERVER_HOST=localhost
 COPY --from=alpine /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
-ADD release/linux/arm/drone-server /bin/
+ADD release/linux/amd64/drone-server /bin/
 
 ENTRYPOINT ["/bin/drone-server"]
