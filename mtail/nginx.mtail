@@ -1,0 +1,48 @@
+counter request_count          by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_request_count"
+counter request_length_bytes   by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_request_length_bytes"
+counter bytes_sent             by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_bytes_sent"
+counter body_bytes_sent        by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_body_bytes_sent"
+counter request_time           by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_request_time"
+counter upstream_connect_time  by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_upstream_connect_time"
+counter upstream_header_time   by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_upstream_header_time"
+counter upstream_response_time by nginx_host, nginx_method, nginx_uri, nginx_status, nginx_referer, nginx_user_agent, nginx_continent_name, nginx_country_name, nginx_city_name as "nginx_upstream_response_time"
+counter nginx_log_nomatch_count
+
+/^/ +
+/(?P<msec>\d+)\.\d+ / +       # settime() needs just the seconds so we exclude the .milliseconds part
+/(?P<host>\S+) / +
+/(?P<request_method>\S+) / +
+/(?P<uri>\S+) / +
+/(?P<status>\S+) / +
+/(?P<request_length>\d+) / +
+/(?P<bytes_sent>\d+) / +
+/(?P<body_bytes_sent>\d+) / +
+/(?P<request_time>\d+\.\d+) / +
+/(?P<upstream_connect_time>\S+) / +
+/(?P<upstream_header_time>\S+) / +
+/(?P<upstream_response_time>\S+) / +
+/"(?P<http_referer>\S+)" / +
+/"(?P<http_user_agent>(.*?))" / +
+/"(?P<geoip_city_continent_code>\S+)" / +
+/"(?P<geoip_city_country_name>(.*?))" / +
+/"(?P<geoip_city>(.*?))"/ +
+/$/ {
+    settime($msec)
+    request_count[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city]++
+    request_length_bytes[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += $request_length
+    bytes_sent[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += $bytes_sent
+    body_bytes_sent[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += $body_bytes_sent
+    request_time[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += $request_time
+
+    $upstream_connect_time != "-" {
+        upstream_connect_time[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += float($upstream_connect_time)
+    }
+    $upstream_header_time != "-" {
+        upstream_header_time[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += float($upstream_header_time)
+    }
+    $upstream_response_time != "-" {
+        upstream_response_time[$host][$request_method][$uri][$status][$http_referer][$http_user_agent][$geoip_city_continent_code][$geoip_city_country_name][$geoip_city] += float($upstream_response_time)
+    }
+} else {
+    nginx_log_nomatch_count++
+}
