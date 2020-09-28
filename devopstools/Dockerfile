@@ -1,6 +1,7 @@
 FROM python:3.7-alpine
 
 ENV TERRAFORM_VERSION=0.12.12
+ENV ANSIBLE_VERSION=2.9.2
 ENV AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
 ENV AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
 ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}"
@@ -11,7 +12,7 @@ RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && apk del .build-deps \
     && ln -s /usr/local/bin/python /usr/bin/python
 
-RUN apk add --no-cache curl jq python bash ca-certificates git openssl ncurses unzip wget py2-pip \
+RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget \
     && pip install awscli \
     && cd /tmp  \
     && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
@@ -24,5 +25,10 @@ RUN apk add --no-cache curl jq python bash ca-certificates git openssl ncurses u
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && rm -rf /var/tmp/*
+
+RUN echo Terraform: ${TERRAFORM_VERSION} > /root/devopstools_info.txt &&  \
+    echo Ansible: ${ANSIBLE_VERSION} >> /root/devopstools_info.txt && \
+    echo Kubectl: $(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) >> /root/devopstools_info.txt
+
 ENV PS1 "\h > "
 CMD ["/bin/bash"]
