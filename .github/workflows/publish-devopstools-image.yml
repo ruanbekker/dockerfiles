@@ -30,4 +30,4 @@ jobs:
         file: ./devopstools/Dockerfile
         platforms: linux/amd64
         push: true
-        tags: ruanbekker/devopstools:v1.0.1
+        tags: ruanbekker/devopstools:latest
