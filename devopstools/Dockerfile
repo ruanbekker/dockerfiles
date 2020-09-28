@@ -32,3 +32,4 @@ RUN echo Terraform: ${TERRAFORM_VERSION} > /root/devopstools_info.txt &&  \
 
 ENV PS1 "\h > "
 CMD ["/bin/bash"]
+
