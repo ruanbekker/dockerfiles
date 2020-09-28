@@ -3,7 +3,7 @@ FROM python:3.7-alpine
 ENV TERRAFORM_VERSION=0.12.12
 ENV AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
 ENV AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
-ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}"
+ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}" 
 
 RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && apk add --no-cache --virtual=.run-deps openssh-client ca-certificates openssl \
@@ -26,3 +26,4 @@ RUN apk add --no-cache curl jq python bash ca-certificates git openssl ncurses u
     && rm -rf /var/tmp/*
 ENV PS1 "\h > "
 CMD ["/bin/bash"]
+
