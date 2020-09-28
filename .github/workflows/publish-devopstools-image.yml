@@ -18,8 +18,7 @@ jobs:
       uses: docker/build-push-action@v1
       with:
         context: ./devopstools
-        file: ./Dockerfile
+        file: ./devopstools/Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
-        repository: ruanbekker/devopstools
-        tags: v1.0.1
+        tags: ruanbekker/devopstools:v1.0.1
