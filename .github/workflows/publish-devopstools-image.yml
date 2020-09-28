@@ -17,8 +17,8 @@ jobs:
     - name: build and push docker images
       uses: docker/build-push-action@v1
       with:
-        context: .
-        file: ./devopstools/Dockerfile
+        context: ./devopstools
+        file: ./Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         repository: ruanbekker/devopstools
