@@ -26,3 +26,4 @@ RUN apk add --no-cache curl jq python bash ca-certificates git openssl ncurses u
     && rm -rf /var/tmp/*
 ENV PS1 "\h > "
 CMD ["/bin/bash"]
+
