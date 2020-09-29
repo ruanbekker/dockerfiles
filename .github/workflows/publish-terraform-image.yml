@@ -1,4 +1,4 @@
-name: publish-kubectl-image
+name: publish-terraform-image
 on:
   push:
     branches: 
@@ -26,8 +26,8 @@ jobs:
     - name: build and push docker images
       uses: docker/build-push-action@v2
       with:
-        context: ./kubectl
-        file: ./kubectl/Dockerfile
+        context: ./terraform
+        file: ./terraform/Dockerfile
         platforms: linux/amd64
         push: true
-        tags: ruanbekker/kubectl:latest
+        tags: ruanbekker/terraform:latest
