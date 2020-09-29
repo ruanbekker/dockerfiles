@@ -4,7 +4,7 @@ on:
     branches: 
       - master
     paths:
-      - 'kubectl/*'
+      - 'terraform/*'
     
 jobs:
   build:
