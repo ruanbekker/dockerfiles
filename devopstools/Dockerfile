@@ -8,12 +8,12 @@ ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}"
 
 RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && apk add --no-cache --virtual=.run-deps openssh-client ca-certificates openssl \
-    && pip install --no-cache-dir cffi==1.14.3 ansible==${ANSIBLE_VERSION} kubernetes openshift \
+    && pip install --no-cache-dir cffi==1.14.3 ansible==${ANSIBLE_VERSION} \
     && apk del .build-deps \
     && ln -s /usr/local/bin/python /usr/bin/python
 
 RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget \
-    && pip install awscli \
+    && pip install awscli && pip uninstall kubernetes && pip install kubernetes openshift \
     && cd /tmp  \
     && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin  \
