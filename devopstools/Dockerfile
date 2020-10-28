@@ -13,7 +13,7 @@ RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && ln -s /usr/local/bin/python /usr/bin/python
 
 RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget \
-    && pip install awscli && pip uninstall kubernetes && pip install kubernetes openshift \
+    && pip install awscli && pip uninstall kubernetes && pip install kubernetes==11.0.0 openshift \
     && cd /tmp  \
     && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
     && unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip -d /usr/bin  \
