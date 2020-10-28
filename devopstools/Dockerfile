@@ -26,7 +26,8 @@ RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wg
     && rm -rf /var/cache/apk/* \
     && rm -rf /var/tmp/*
 
-RUN pip uninstall kubernetes -y && pip install kubernetes==11.0.0 openshift
+# ansible galaxy
+RUN ansible-galaxy collection install community.kubernetes
 
 RUN echo Terraform: ${TERRAFORM_VERSION} > /root/devopstools_info.txt &&  \
     echo Ansible: ${ANSIBLE_VERSION} >> /root/devopstools_info.txt && \
