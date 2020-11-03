@@ -35,6 +35,16 @@ RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-19.03.10.
 # ansible galaxy
 RUN pip install --upgrade --user openshift && ansible-galaxy collection install community.kubernetes
 
+ENV WAYPOINT_VERSION 0.1.4
+ENV WAYPOINT_OS linux
+ENV WAYPOINT_ARCH amd64
+
+RUN wget https://releases.hashicorp.com/waypoint/${WAYPOINT_VERSION}/waypoint_${WAYPOINT_VERSION}_${WAYPOINT_OS}_${WAYPOINT_ARCH}.zip \
+    && unzip waypoint_${WAYPOINT_VERSION}_${WAYPOINT_OS}_${WAYPOINT_ARCH}.zip \
+    && mv waypoint /usr/local/bin/waypoint \
+    && chmod +x /usr/local/bin/waypoint \
+    && rm -rf waypoint_${WAYPOINT_VERSION}_${WAYPOINT_OS}_${WAYPOINT_ARCH}.zip
+
 RUN echo Terraform: ${TERRAFORM_VERSION} > /root/devopstools_info.txt &&  \
     echo Ansible: ${ANSIBLE_VERSION} >> /root/devopstools_info.txt && \
     echo Kubectl: $(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt) >> /root/devopstools_info.txt
