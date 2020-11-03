@@ -12,7 +12,7 @@ RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && apk del .build-deps \
     && ln -s /usr/local/bin/python /usr/bin/python
 
-RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget \
+RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget iptables git\
     && pip install awscli \
     && cd /tmp  \
     && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
@@ -25,6 +25,12 @@ RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wg
     && rm -rf /tmp/* \
     && rm -rf /var/cache/apk/* \
     && rm -rf /var/tmp/*
+    
+RUN wget https://download.docker.com/linux/static/stable/x86_64/docker-19.03.10.tgz \
+    && tar -xf docker-19.03.10.tgz \
+    && rm -rf docker-19.03.10.tgz \
+    && mv docker/* /usr/local/bin/ \
+    && rm -rf docker
 
 # ansible galaxy
 RUN pip install --upgrade --user openshift && ansible-galaxy collection install community.kubernetes
