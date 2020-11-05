@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  sqs:
+     image: roribio16/alpine-sqs:latest
+     container_name: sqs
+     stdin_open: true
+     tty: true
+     networks:
+       - public
+
+  awscli:
+    image: ruanbekker/awscli
+    environment:
+      - AWS_ACCESS_KEY_ID=123
+      - AWS_SECRET_ACCESS_KEY=xyz
+      - AWS_DEFAULT_REGION=eu-west-1
+    entrypoint: |
+      sh -c 'sh -s << EOF
+      aws --endpoint-url=http://sqs:9324 sqs create-queue --queue-name test
+      aws --endpoint-url http://sqs:9324 sqs list-queues
+      aws --endpoint-url http://sqs:9324 sqs send-message --queue-url http://sqs:9324/queue/test --message-body "hello!"
+      aws --endpoint-url http://sqs:9324 sqs receive-message --queue-url http://sqs:9324/queue/test --wait-time-seconds 10
+      tail -f /dev/null
+      EOF'
+    networks:
+      - public
+    depends_on:
+      - sqs
+
+networks:
+  public: {}
