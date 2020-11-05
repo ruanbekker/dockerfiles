@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  redis-server:
+     image: redis:alpine
+     container_name: redis-server
+       - public
+
+  redis-client:
+    image: redis:alpine
+    entrypoint: |
+      sh -c 'sh -s << EOF
+      while true
+      do
+        redis-cli -h redis-server -p 6379 ping
+        sleep 10
+      done
+      EOF'
+    networks:
+      - public
+    depends_on:
+      - redis-server
+
+networks:
+  public: {}
