@@ -3,16 +3,20 @@ services:
   redis-server:
      image: redis:alpine
      container_name: redis-server
+     networks:
        - public
 
   redis-client:
     image: redis:alpine
+    container_name: redis-client
     entrypoint: |
       sh -c 'sh -s << EOF
       while true
       do
+        sleep 5
         redis-cli -h redis-server -p 6379 ping
-        sleep 10
+        redis-cli -h redis-server -p 6379 SET key `head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13`
+        redis-cli -h redis-server -p 6379 GET key
       done
       EOF'
     networks:
