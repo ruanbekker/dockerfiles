@@ -12,7 +12,7 @@ RUN apk add --no-cache --virtual=.build-deps libffi-dev openssl-dev build-base \
     && apk del .build-deps \
     && ln -s /usr/local/bin/python /usr/bin/python
 
-RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget iptables git\
+RUN apk add --no-cache curl jq bash ca-certificates git openssl ncurses unzip wget iptables git mysql-client \
     && pip install awscli \
     && cd /tmp  \
     && wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip \
