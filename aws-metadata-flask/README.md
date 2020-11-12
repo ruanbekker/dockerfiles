@@ -11,7 +11,8 @@ $ curl -s http://ec2-ip-address:5000 | jq .
 {
   "availability_zone": "eu-west-1c",
   "container_hostname": "83cad2586360",
-  "instance_hostname": "ip-172-31-84-235.eu-west-1.compute.internal",
+  "instance_hostname": "ip-172-31-84-235",
+  "instance_lifecycle": "on-demand",
   "instance_id": "i-00000000000000000"
 }
 ```
