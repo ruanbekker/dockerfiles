@@ -1,0 +1,5 @@
+FROM python:3.7-alpine
+RUN apk add autoconf automake g++ make --no-cache
+RUN pip install flask requests py-bcrypt
+COPY cpu-app.py /app.py
+CMD ["python", "/app.py"]
