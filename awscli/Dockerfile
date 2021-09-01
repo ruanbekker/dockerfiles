@@ -1,13 +1,10 @@
-FROM alpine:latest
+FROM python:3.8-alpine
 
 ENV AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"
 ENV AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"
 ENV AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION}"
+ENV AWS_CLI_VERSION=1.20.33
 
-RUN apk --no-cache add \
-	ca-certificates \
-	python \
-	py2-pip \
-	&& pip install awscli
-	
+RUN pip install awscli==$AWS_CLI_VERSION
+
 ENTRYPOINT [ "aws" ]
