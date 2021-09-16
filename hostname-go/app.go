@@ -14,7 +14,6 @@ func hostnameHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func healthHandler(w http.ResponseWriter, r *http.Request) {
-    log.Println("logging request for healthHandler on /health")
     fmt.Fprintln(w, "ok")
 }
 
