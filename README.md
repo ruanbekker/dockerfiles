@@ -16,4 +16,4 @@ Dockerfiles Repo
 
 ## Stargazers over time
 
-[![Stargazers over time](https://starchart.cc/ruanbekker/ansible-docker-swarm.svg)](https://starchart.cc/ruanbekker/dockerfiles)
+[![Stargazers over time](https://starchart.cc/ruanbekker/dockerfiles.svg)](https://starchart.cc/ruanbekker/dockerfiles)
