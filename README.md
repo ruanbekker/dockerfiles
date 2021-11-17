@@ -13,3 +13,7 @@ Dockerfiles Repo
 ## GUI Based
 
 - [firefox](https://hub.docker.com/r/jlesage/firefox/)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/ruanbekker/ansible-docker-swarm.svg)](https://starchart.cc/ruanbekker/dockerfiles)
