@@ -1,11 +1,13 @@
 from flask import Flask, render_template
 from os import environ as envar
+from socket import gethostname
 
 app = Flask(__name__)
 
 @app.route('/')
 def root():
-    return render_template('index.html', app_title=envar['APP_TITLE'], app_url=envar['APP_URL'], app_text=envar['APP_TEXT'])
+    hostname = gethostname()
+    return render_template('index.html', app_title=envar['APP_TITLE'], hostname=hostname)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
