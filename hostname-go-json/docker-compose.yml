@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  go-hostname-json:
+    container_name: go-hostname-json
+    build: .
+    ports: 
+      - 8080:8080
