@@ -34,6 +34,7 @@ The following tags are available
 | Name   | Container Image               | Docker Hub                                                                                           |
 | ------ |:-----------------------------:| ----------------------------------------------------------------------------------------------------:|
 | curl   | `ruanbekker/containers:curl`  | [ruanbekker/containers:curl](https://hub.docker.com/r/ruanbekker/containers/tags?page=1&name=curl)   |
+| echo   | `ruanbekker/containers:echo`  | [ruanbekker/containers:echo](https://hub.docker.com/r/ruanbekker/containers/tags?page=1&name=echo)   |
 | mysql  | `ruanbekker/containers:mysql` | [ruanbekker/containers:mysql](https://hub.docker.com/r/ruanbekker/containers/tags?page=1&name=mysql) |
 | nginx  | `ruanbekker/containers:nginx` | [ruanbekker/containers:nginx](https://hub.docker.com/r/ruanbekker/containers/tags?page=1&name=nginx) |
 
