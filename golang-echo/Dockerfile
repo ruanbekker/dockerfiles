@@ -1,6 +1,7 @@
 FROM golang:alpine AS builder
 
 WORKDIR $GOPATH/src/echo/
+COPY go.mod .
 COPY main.go .
 RUN go build -o /go/app
 
