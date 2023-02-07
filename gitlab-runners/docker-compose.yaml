@@ -1,0 +1,81 @@
+# credit: https://gitlab.com/TyIsI/gitlab-runner-docker-compose/-/tree/main/
+version: '3.7'
+
+services:
+  dind:
+    image: docker:20-dind
+    container_name: "dind"
+    hostname: dind
+    privileged: true
+    restart: unless-stopped
+    volumes:
+      - docker-dind:/var/lib/docker
+      - certs:/certs/client
+    command:
+      - --tlsverify=false
+    networks:
+      - public
+    environment:
+      DOCKER_TLS_CERTDIR: "/certs"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+
+  runner:
+    image: gitlab/gitlab-runner:alpine3.15-v15.8.1
+    container_name: "runner"
+    hostname: runner
+    restart: unless-stopped
+    volumes:
+      - ./config:/etc/gitlab-runner:z
+      - ./data/runner/cache:/cache
+      - certs:/certs/client
+    environment:
+      DOCKER_HOST: "tcp://dind:2376"
+      DOCKER_TLS_CERTDIR: "/certs/client"
+      DOCKER_TLS_VERIFY: "1"
+      DOCKER_MACHINE_NAME: "dind"
+      DOCKER_CERT_PATH: "/certs/client"
+    networks:
+      - public
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+
+  runner-registration:
+    image: gitlab/gitlab-runner:alpine3.15-v15.8.1
+    container_name: "runner-registration"
+    hostname: runner-registration
+    restart: "no"
+    depends_on:
+      - dind
+    environment:
+      CI_SERVER_URL: ${CI_SERVER_URL}
+      REGISTRATION_TOKEN: ${REGISTRATION_TOKEN}
+    command:
+      - register
+      - --non-interactive
+      - --locked=false
+      - --name=${RUNNER_NAME}
+      - --executor=docker
+      - --docker-image=docker:20-dind
+      - --docker-volumes=/var/run/docker.sock:/var/run/docker.sock
+    volumes:
+      - ./config:/etc/gitlab-runner:z
+      - ./data/dind/docker:/var/lib/docker
+    networks:
+      - public
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1m"
+
+volumes:
+  docker-dind: {}
+  certs: {}
+
+networks:
+  public:
+    name: public
