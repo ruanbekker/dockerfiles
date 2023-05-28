@@ -1,0 +1,11 @@
+---
+# this uses half a cpu to reproduce a system being utilised
+version: "3.9"
+
+services:
+  stress:
+    container_name: "stress"
+    build: .
+    restart: unless-stopped
+    cpus: 0.5
+    mem_limit: 512m
