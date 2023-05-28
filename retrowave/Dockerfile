@@ -1,4 +1,4 @@
-FROM sebp/lighttpd:latest 
+FROM nginx:stable 
 
-COPY static /var/www/localhost/htdocs/static 
-COPY index.html /var/www/localhost/htdocs/index.html
+COPY static /usr/share/nginx/html/static 
+COPY index.html /usr/share/nginx/html/index.html
