@@ -5,5 +5,5 @@
 Build with:
 
 ```bash
-go build -o colors main.go
+go build -o messages main.go
 ```
